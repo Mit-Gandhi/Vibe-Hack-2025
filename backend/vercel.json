@@ -8,6 +8,6 @@
   },
   "regions": ["iad1"],
   "rewrites": [
-    { "source": "/", "destination": "/api/health" }
+    { "source": "/", "destination": "/api" }
   ]
 }

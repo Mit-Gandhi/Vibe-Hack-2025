@@ -17,8 +17,10 @@ app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 app.use(morgan('dev'));
 
-// Health check
-app.get('/health', (req, res) => res.json({ status: 'ok' }));
+// Health check (support both /health and /api/health for Vercel)
+const healthHandler = (req, res) => res.json({ status: 'ok' });
+app.get('/health', healthHandler);
+app.get('/api/health', healthHandler);
 
 // Routes
 app.use('/api/auth', authRoutes);
