@@ -167,6 +167,13 @@ export function Header() {
                 </Badge>
               </Button>
 
+              {/* Show user name next to avatar - only on larger screens */}
+              {displayName && (
+                <span className="hidden md:block text-sm text-foreground/80 select-none truncate max-w-[120px] mr-2">
+                  {displayName}
+                </span>
+              )}
+
               {/* Enhanced User Menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -179,17 +186,6 @@ export function Header() {
                     <User className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                {/* Show user name next to avatar */}
-                {displayName && (
-                  <>
-                    <span className="hidden md:block text-sm text-foreground/80 mx-1 select-none truncate max-w-[160px]">
-                      {displayName}
-                    </span>
-                    <span className="md:hidden text-sm text-foreground/80 mx-2 select-none truncate max-w-[100px]">
-                      {displayName}
-                    </span>
-                  </>
-                )}
                 <DropdownMenuContent 
                   className="w-56 rounded-xl border-border/50 bg-background/95 backdrop-blur-xl shadow-xl" 
                   align="end"
