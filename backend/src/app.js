@@ -11,24 +11,37 @@ const commentRoutes = require('./routes/comment.routes');
 
 const app = express();
 
-// Security & common middleware
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
-}));
-
-// CORS configuration - temporarily allow all origins for debugging
-console.log('Environment check:', {
-  NODE_ENV: process.env.NODE_ENV,
-  CORS_ORIGINS: process.env.CORS_ORIGINS,
-  PORT: process.env.PORT
+// Manual CORS middleware - more explicit control
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  console.log('CORS Request:', { 
+    method: req.method, 
+    origin, 
+    url: req.url,
+    headers: Object.keys(req.headers)
+  });
+  
+  // Allow all origins for now
+  res.header('Access-Control-Allow-Origin', origin || '*');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,Authorization');
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    console.log('Handling OPTIONS preflight request');
+    res.status(200).end();
+    return;
+  }
+  
+  next();
 });
 
-app.use(cors({
-  origin: true, // Allow all origins temporarily
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  optionsSuccessStatus: 200
+// Security middleware (minimal for debugging)
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+  crossOriginOpenerPolicy: false,
+  crossOriginEmbedderPolicy: false
 }));
 app.use(express.json({ limit: '1mb' }));
 app.use(morgan('dev'));
