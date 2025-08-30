@@ -2,6 +2,7 @@
 // - Ensures MongoDB connects once per lambda instance
 // - Restores '/api' prefix that Vercel strips from req.url so Express routes match
 
+require('dotenv').config();
 const app = require('../src/app');
 const connectDB = require('../src/config/db');
 
