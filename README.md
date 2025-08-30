@@ -13,6 +13,11 @@
   <img src="https://img.shields.io/badge/Redis-%23DC382D?style=for-the-badge&logo=redis&logoColor=white" />
 </p>
 
+<p align="center">
+  <a href="https://vibe-hack-2025-optx.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/🔗_Live_Demo-Visit_Now-brightgreen?style=for-the-badge" alt="Live Demo" />
+  </a>
+</p>
 
 ## 🌐 Overview
 
