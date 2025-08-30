@@ -12,32 +12,51 @@ const commentRoutes = require('./routes/comment.routes');
 const app = express();
 
 // Security & common middleware
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 
-// CORS configuration
-const corsOrigins = process.env.CORS_ORIGINS 
-  ? process.env.CORS_ORIGINS.split(',').map(origin => origin.trim())
-  : [
-      'http://localhost:5173',
-      'http://localhost:3000',
-      'https://vibe-hack-2025-optx.vercel.app'
-    ];
-
-console.log('CORS Origins:', corsOrigins); // Debug log
+// CORS configuration - temporarily allow all origins for debugging
+console.log('Environment check:', {
+  NODE_ENV: process.env.NODE_ENV,
+  CORS_ORIGINS: process.env.CORS_ORIGINS,
+  PORT: process.env.PORT
+});
 
 app.use(cors({
-  origin: corsOrigins,
+  origin: true, // Allow all origins temporarily
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  optionsSuccessStatus: 200
 }));
 app.use(express.json({ limit: '1mb' }));
 app.use(morgan('dev'));
 
 // Health check (support both /health and /api/health for Vercel)
-const healthHandler = (req, res) => res.json({ status: 'ok' });
+const healthHandler = (req, res) => {
+  res.json({ 
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    cors: 'enabled',
+    env: {
+      NODE_ENV: process.env.NODE_ENV,
+      hasMongoUri: !!process.env.MONGODB_URI,
+      hasCorsOrigins: !!process.env.CORS_ORIGINS
+    }
+  });
+};
 app.get('/health', healthHandler);
 app.get('/api/health', healthHandler);
+
+// Test CORS endpoint
+app.get('/api/test-cors', (req, res) => {
+  res.json({ 
+    message: 'CORS test successful',
+    origin: req.headers.origin,
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
