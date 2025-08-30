@@ -1,9 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Clock, User, ArrowRight, Star, Sparkles, Zap } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function HeroSection() {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleStartWriting = () => {
+    if (isAuthenticated) {
+      navigate('/write');
+    } else {
+      // Store the intended destination in sessionStorage
+      sessionStorage.setItem('redirectAfterLogin', '/write');
+      navigate('/auth');
+    }
+  };
+
   return (
     <section className="relative overflow-hidden py-12 lg:py-16 bg-gradient-to-br from-white via-slate-50/50 to-blue-50/30">
       {/* Animated mesh background */}
@@ -52,26 +66,26 @@ export function HeroSection() {
               <Button 
                 size="lg" 
                 className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0 shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 px-8 py-4 text-base font-bold rounded-2xl"
-                asChild
+                onClick={handleStartWriting}
               >
-                <Link to="/write" className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                   <Zap className="w-4 h-4" />
                   Start Writing
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                </Link>
+                </div>
               </Button>
               
               <Button 
                 variant="outline" 
                 size="lg"
-                className="border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50 backdrop-blur-sm px-8 py-4 text-base font-semibold rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md"
-                onClick={() => {
-                  const section = document.getElementById('trending-section');
-                  section?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                className="border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 backdrop-blur-sm px-8 py-4 text-base font-semibold rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md"
+                asChild
               >
-                Explore Articles
+                <Link to="/articles" className="flex items-center gap-2">
+                  Explore Articles
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+                </Link>
               </Button>
             </div>
             

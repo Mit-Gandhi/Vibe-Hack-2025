@@ -87,6 +87,15 @@ const Auth = () => {
           title: "Welcome!",
           description: "Account created and logged in successfully!",
         });
+        
+        // Check if there's a redirect path stored
+        const redirectPath = sessionStorage.getItem('redirectAfterLogin');
+        if (redirectPath) {
+          sessionStorage.removeItem('redirectAfterLogin');
+          navigate(redirectPath);
+          return;
+        }
+        
         // Redirect to profile setup for new users
         navigate('/profile/setup');
       } else {
@@ -123,6 +132,14 @@ const Auth = () => {
           description: "Welcome back!",
         });
         
+        // Check if there's a redirect path stored
+        const redirectPath = sessionStorage.getItem('redirectAfterLogin');
+        if (redirectPath) {
+          sessionStorage.removeItem('redirectAfterLogin');
+          navigate(redirectPath);
+          return;
+        }
+
         // Redirect based on user role
         if (response.user.role === 'admin') {
           navigate('/dashboard');

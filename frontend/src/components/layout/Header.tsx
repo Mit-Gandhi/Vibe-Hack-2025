@@ -56,9 +56,11 @@ export function Header() {
               <div className="absolute inset-0 hero-gradient rounded-xl opacity-20 blur-xl group-hover:opacity-30 transition-opacity duration-300"></div>
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold gradient-text group-hover:opacity-90 transition-opacity duration-200">
-                Devnovate
-              </span>
+              <img 
+                src="/DEVNOVATE LOGO BLACK (1).svg" 
+                alt="Devnovate" 
+                className="h-8 w-auto group-hover:opacity-90 transition-opacity duration-200"
+              />
             </div>
           </Link>
         </div>
