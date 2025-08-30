@@ -11,6 +11,14 @@ const commentRoutes = require('./routes/comment.routes');
 
 const app = express();
 
+// Fix double slash in URLs
+app.use((req, res, next) => {
+  if (req.url.includes('//')) {
+    req.url = req.url.replace(/\/+/g, '/');
+  }
+  next();
+});
+
 // Manual CORS middleware - more explicit control
 app.use((req, res, next) => {
   const origin = req.headers.origin;
@@ -18,19 +26,21 @@ app.use((req, res, next) => {
     method: req.method, 
     origin, 
     url: req.url,
+    originalUrl: req.originalUrl,
     headers: Object.keys(req.headers)
   });
   
-  // Allow all origins for now
+  // Set CORS headers
   res.header('Access-Control-Allow-Origin', origin || '*');
   res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH');
+  res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,Authorization,Cache-Control');
+  res.header('Access-Control-Max-Age', '86400'); // 24 hours
   
-  // Handle preflight requests
+  // Handle preflight requests immediately
   if (req.method === 'OPTIONS') {
-    console.log('Handling OPTIONS preflight request');
-    res.status(200).end();
+    console.log('Handling OPTIONS preflight request for:', req.url);
+    res.status(204).end();
     return;
   }
   
