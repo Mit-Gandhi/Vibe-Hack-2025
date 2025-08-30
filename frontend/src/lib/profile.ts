@@ -3,6 +3,7 @@ import { apiClient } from './api';
 export interface Profile {
   _id?: string;
   userId?: string;
+  fullName?: string;
   bio?: string;
   location?: string;
   website?: string;
@@ -14,6 +15,12 @@ export interface Profile {
   skills?: string[];
   interests?: string[];
   profilePicture?: string;
+  socialLinks?: {
+    twitter?: string;
+    linkedin?: string;
+    github?: string;
+    website?: string;
+  };
   createdAt?: string;
   updatedAt?: string;
 }

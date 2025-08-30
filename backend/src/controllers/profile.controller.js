@@ -1,4 +1,5 @@
 const Profile = require('../models/Profile');
+const User = require('../models/User');
 
 // POST /api/profiles - Create or Update own profile
 exports.upsertMyProfile = async (req, res, next) => {
@@ -90,8 +91,14 @@ exports.upsertMyProfile = async (req, res, next) => {
 exports.getProfileByUserId = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const profile = await Profile.findOne({ userId }).lean();
+    const profile = await Profile.findOne({ userId }).populate('userId', 'name username').lean();
     if (!profile) return res.status(404).json({ success: false, message: 'Profile not found' });
+    
+    // If fullName is not set in profile, use the user's name as fallback
+    if (!profile.fullName && profile.userId && profile.userId.name) {
+      profile.fullName = profile.userId.name;
+    }
+    
     return res.json({ success: true, data: profile });
   } catch (err) {
     next(err);
@@ -104,8 +111,13 @@ exports.getMyProfile = async (req, res, next) => {
     const authUserId = req.user?.userId;
     if (!authUserId) return res.status(401).json({ success: false, message: 'Unauthorized' });
 
-    const profile = await Profile.findOne({ userId: authUserId }).lean();
+    const profile = await Profile.findOne({ userId: authUserId }).populate('userId', 'name username').lean();
     if (!profile) return res.status(404).json({ success: false, message: 'Profile not found' });
+
+    // If fullName is not set in profile, use the user's name as fallback
+    if (!profile.fullName && profile.userId && profile.userId.name) {
+      profile.fullName = profile.userId.name;
+    }
 
     return res.json({ success: true, data: profile });
   } catch (err) {

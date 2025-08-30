@@ -55,13 +55,13 @@ const PublicProfile: React.FC = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div className="flex items-center gap-4 flex-1 min-w-0">
                       <Avatar className="h-14 w-14">
-                        <AvatarImage src={profile.profilePicture} alt={profile?.userId || 'User'} />
+                        <AvatarImage src={profile.profilePicture} alt={profile.fullName || 'User'} />
                         <AvatarFallback>
-                          {(profile?.userId || 'U').toString().trim().charAt(0).toUpperCase()}
+                          {(profile.fullName || 'U').toString().trim().charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <CardTitle className="text-2xl truncate">{(profile as any).fullName || 'User'}</CardTitle>
+                        <CardTitle className="text-2xl truncate">{profile.fullName || 'User'}</CardTitle>
                         {profile.bio && (
                           <CardDescription className="text-base line-clamp-2">{profile.bio}</CardDescription>
                         )}
@@ -75,16 +75,16 @@ const PublicProfile: React.FC = () => {
                 <CardContent className="space-y-6">
                   {/* Basic Info */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {(profile as any).profession && (
+                    {profile.profession && (
                       <div className="flex items-center gap-2">
                         <Briefcase className="w-4 h-4 text-muted-foreground" />
-                        <span>{(profile as any).profession}</span>
+                        <span>{profile.profession}</span>
                       </div>
                     )}
-                    {(profile as any).company && (
+                    {profile.company && (
                       <div className="flex items-center gap-2">
                         <Building className="w-4 h-4 text-muted-foreground" />
-                        <span>{(profile as any).company}</span>
+                        <span>{profile.company}</span>
                       </div>
                     )}
                     {profile.location && (
@@ -93,23 +93,23 @@ const PublicProfile: React.FC = () => {
                         <span>{profile.location}</span>
                       </div>
                     )}
-                    {((profile as any).socialLinks?.website || (profile as any).website) && (
+                    {(profile.socialLinks?.website || profile.website) && (
                       <div className="flex items-center gap-2 min-w-0">
                         <Globe className="w-4 h-4 text-muted-foreground" />
-                        <a href={normalizeHref((profile as any).socialLinks?.website || (profile as any).website)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate">
-                          {normalizeHref((profile as any).socialLinks?.website || (profile as any).website)}
+                        <a href={normalizeHref(profile.socialLinks?.website || profile.website)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate">
+                          {normalizeHref(profile.socialLinks?.website || profile.website)}
                         </a>
                       </div>
                     )}
                   </div>
 
                   {/* Social Links */}
-                  {((profile as any).socialLinks?.twitter || (profile as any).socialLinks?.linkedin || (profile as any).socialLinks?.github || (profile as any).twitter || (profile as any).linkedin || (profile as any).github) && (
+                  {(profile.socialLinks?.twitter || profile.socialLinks?.linkedin || profile.socialLinks?.github || profile.twitter || profile.linkedin || profile.github) && (
                     <div>
                       <h3 className="font-semibold mb-2">Social Links</h3>
                       <div className="flex gap-4">
-                        {(((profile as any).socialLinks?.twitter) || (profile as any).twitter) && (() => {
-                          const raw = (((profile as any).socialLinks?.twitter) || (profile as any).twitter || '').trim();
+                        {(profile.socialLinks?.twitter || profile.twitter) && (() => {
+                          const raw = (profile.socialLinks?.twitter || profile.twitter || '').trim();
                           const href = raw.startsWith('http') ? raw : `https://twitter.com/${raw.replace(/^@+/, '')}`;
                           return (
                             <a href={href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-500 hover:underline">
@@ -118,8 +118,8 @@ const PublicProfile: React.FC = () => {
                             </a>
                           );
                         })()}
-                        {(((profile as any).socialLinks?.linkedin) || (profile as any).linkedin) && (() => {
-                          const raw = (((profile as any).socialLinks?.linkedin) || (profile as any).linkedin || '').trim();
+                        {(profile.socialLinks?.linkedin || profile.linkedin) && (() => {
+                          const raw = (profile.socialLinks?.linkedin || profile.linkedin || '').trim();
                           const href = raw.startsWith('http') ? raw : `https://${raw}`;
                           return (
                             <a href={href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-700 hover:underline">
@@ -128,8 +128,8 @@ const PublicProfile: React.FC = () => {
                             </a>
                           );
                         })()}
-                        {(((profile as any).socialLinks?.github) || (profile as any).github) && (() => {
-                          const raw = (((profile as any).socialLinks?.github) || (profile as any).github || '').trim();
+                        {(profile.socialLinks?.github || profile.github) && (() => {
+                          const raw = (profile.socialLinks?.github || profile.github || '').trim();
                           const href = raw.startsWith('http') ? raw : `https://${raw}`;
                           return (
                             <a href={href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-gray-700 hover:underline">
