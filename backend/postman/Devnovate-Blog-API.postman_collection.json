@@ -1,0 +1,205 @@
+{
+  "info": {
+    "name": "Devnovate Blog API (Auth + Blogs)",
+    "_postman_id": "c7e3b7fa-7f7b-4f2b-98de-9cc2f4ca6c1a",
+    "description": "Collection to test Auth and Blog APIs for Devnovate Blogging Platform.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup - Request OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/auth/signup/request", "host": ["{{baseUrl}}"], "path": ["api", "auth", "signup", "request"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Signup - Verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/auth/signup/verify", "host": ["{{baseUrl}}"], "path": ["api", "auth", "signup", "verify"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"otp\": \"123456\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "My Profile (JWT)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/auth/profile", "host": ["{{baseUrl}}"], "path": ["api", "auth", "profile"] }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Blogs",
+      "item": [
+        {
+          "name": "Get All Blogs (summary)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/blogs?page={{page}}&limit={{limit}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blogs"],
+              "query": [
+                { "key": "page", "value": "{{page}}" },
+                { "key": "limit", "value": "{{limit}}" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Blog by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/blogs/{{slug}}", "host": ["{{baseUrl}}"], "path": ["api", "blogs", "{{slug}}"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Blog (JWT)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/blogs", "host": ["{{baseUrl}}"], "path": ["api", "blogs"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Mastering the MERN Stack\",\n  \"subtitle\": \"A practical guide with real-world examples\",\n  \"slug\": \"mastering-mern-stack\",\n  \"tags\": [\"mern\", \"backend\", \"javascript\"],\n  \"coverImage\": \"https://cdn.devnovate.com/blogs/mern-cover.png\",\n  \"contentHTML\": \"<h1>Intro</h1><p>Welcome to MERN!</p><img src='https://cdn.devnovate.com/blogs/image1.png'><h2>Next Steps</h2><p>Keep learning...</p>\",\n  \"status\": \"pending\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Blog (JWT)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/blogs/{{blogId}}", "host": ["{{baseUrl}}"], "path": ["api", "blogs", "{{blogId}}"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Mastering the MERN Stack (Updated)\",\n  \"subtitle\": \"Updated subtitle\",\n  \"tags\": [\"mern\", \"fullstack\"],\n  \"coverImage\": \"https://cdn.devnovate.com/blogs/mern-cover-v2.png\",\n  \"contentHTML\": \"<h1>Intro</h1><p>Updated content...</p>\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Status (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/blogs/{{blogId}}/status", "host": ["{{baseUrl}}"], "path": ["api", "blogs", "{{blogId}}", "status"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Blog (JWT)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/blogs/{{blogId}}", "host": ["{{baseUrl}}"], "path": ["api", "blogs", "{{blogId}}"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Like (JWT)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/blogs/{{blogId}}/like", "host": ["{{baseUrl}}"], "path": ["api", "blogs", "{{blogId}}", "like"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Comment (JWT)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/blogs/{{blogId}}/comment", "host": ["{{baseUrl}}"], "path": ["api", "blogs", "{{blogId}}", "comment"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Great write-up!\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Comments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/blogs/{{blogId}}/comments", "host": ["{{baseUrl}}"], "path": ["api", "blogs", "{{blogId}}", "comments"] }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "token", "value": "" },
+    { "key": "blogId", "value": "" },
+    { "key": "slug", "value": "" },
+    { "key": "page", "value": "1" },
+    { "key": "limit", "value": "10" }
+  ]
+}
