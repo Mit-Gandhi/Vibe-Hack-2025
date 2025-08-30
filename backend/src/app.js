@@ -21,6 +21,26 @@ app.use((req, res, next) => {
   next();
 });
 
+// CORS is handled at the Vercel function level for serverless deployment
+// For local development, we still need CORS middleware
+if (process.env.NODE_ENV !== 'production') {
+  const corsOptions = {
+    origin: [
+      'https://vibe-hack-2025-optx.vercel.app',
+      'https://vibe-hack-2025-two.vercel.app',
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'http://localhost:4173'
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'Cache-Control'],
+    maxAge: 86400
+  };
+  
+  app.use(cors(corsOptions));
+}
+
 // Security middleware (minimal for debugging)
 app.use(helmet({
   crossOriginResourcePolicy: false,
@@ -36,6 +56,9 @@ const healthHandler = (req, res) => {
     status: 'ok',
     timestamp: new Date().toISOString(),
     cors: 'enabled',
+    origin: req.headers.origin,
+    method: req.method,
+    url: req.url,
     env: {
       NODE_ENV: process.env.NODE_ENV,
       hasMongoUri: !!process.env.MONGODB_URI,
@@ -53,6 +76,12 @@ app.get('/api/test-cors', (req, res) => {
     origin: req.headers.origin,
     timestamp: new Date().toISOString()
   });
+});
+
+// Test OPTIONS endpoint for debugging preflight
+app.options('/api/auth/login', (req, res) => {
+  console.log('OPTIONS request for /api/auth/login from origin:', req.headers.origin);
+  res.status(200).end();
 });
 
 // Routes

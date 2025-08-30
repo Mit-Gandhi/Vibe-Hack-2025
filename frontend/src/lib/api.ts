@@ -1,5 +1,6 @@
 // API Configuration and Client
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 
+  (import.meta.env.PROD ? 'https://vibe-hack-2025-two.vercel.app' : 'http://localhost:5000');
 
 export interface ApiResponse<T = any> {
   success: boolean;
@@ -34,6 +35,8 @@ class ApiClient {
         ...(token && { Authorization: `Bearer ${token}` }),
         ...options.headers,
       },
+      mode: 'cors', // Explicitly set CORS mode
+      credentials: 'include', // Include credentials for CORS
       ...options,
     };
 
