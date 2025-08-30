@@ -176,8 +176,6 @@ VITE_APP_NAME=Modern Blog Platform
 npm run dev
 ```
 
-> 🌐 Open [http://localhost:5173](http://localhost:5173) to view the app
-
 ---
 
 ## 🏗️ System Architecture
@@ -241,9 +239,7 @@ project-root/
 ### 📝 **Rich Text Editor**
 - WYSIWYG editing experience
 - Image upload and embedding
-- Code syntax highlighting
 - Markdown support
-- Auto-save functionality
 
 ### 🔐 **Security Implementation**
 - **Input Sanitization**: All user content sanitized against XSS
@@ -254,45 +250,13 @@ project-root/
 ### 📊 **Admin Dashboard**
 - **Content Moderation**: Approve, reject, or hide articles
 - **User Management**: View and manage user accounts
-- **Analytics**: Platform usage and engagement metrics
-- **System Health**: Monitor database and cache performance
 
 ### 💾 **Performance Optimization**
 - **Database Indexing**: Optimized MongoDB queries
 - **Redis Caching**: Reduced database load
 - **Lazy Loading**: Efficient content loading
-- **Image Optimization**: Compressed media assets
 
 ---
-
-## 🚀 Deployment
-
-### 📡 Frontend Deployment (Vercel/Netlify)
-
-```bash
-# Build for production
-npm run build
-
-# Deploy to Vercel
-npx vercel --prod
-
-# Or deploy to Netlify
-npm install -g netlify-cli
-netlify deploy --prod --dir=dist
-```
-
-### ⚙️ Backend Deployment (Railway/Render/DigitalOcean)
-
-```bash
-# Production environment setup
-NODE_ENV=production
-MONGODB_URI=mongodb+srv://your-cluster.mongodb.net/blog-platform
-REDIS_URL=redis://your-redis-instance:6379
-
-# Build and start
-npm run build
-npm start
-```
 
 ### 🗄️ Database Setup
 
@@ -306,52 +270,6 @@ npm start
 - `articles:list` - Cached article listings
 - `articles:{id}` - Individual article cache
 - `user_sessions:{userId}` - User session data
-
----
-
-## 🧪 Testing
-
-### Frontend Testing
-```bash
-cd frontend
-npm run test              # Run unit tests
-npm run test:coverage     # Coverage report
-npm run test:e2e          # End-to-end tests
-```
-
-### Backend Testing
-```bash
-cd backend
-npm run test              # Jest unit tests
-npm run test:integration  # Integration tests
-npm run test:coverage     # Coverage report
-```
-
----
-
-## 📈 Performance Metrics
-
-- ⚡ **Page Load Time**: < 2 seconds (First Contentful Paint)
-- 💾 **Database Queries**: < 100ms average response time
-- 🚀 **API Response Time**: < 200ms for cached content
-- 📱 **Lighthouse Score**: 90+ Performance, Accessibility, SEO
-- 🔄 **Uptime Target**: 99.9% availability
-
----
-
-## 🎨 UI/UX Features
-
-### 🌈 **Modern Design System**
-- **Dark/Light Mode**: System preference detection
-- **Responsive Layout**: Mobile-first design approach
-- **Accessibility**: WCAG 2.1 AA compliance
-- **Smooth Animations**: Framer Motion transitions
-
-### 💡 **User Experience**
-- **Infinite Scroll**: Seamless content browsing
-- **Search & Filter**: Advanced content discovery
-- **Bookmarks**: Save articles for later reading
-- **Social Sharing**: Easy content sharing options
 
 ---
 
@@ -382,51 +300,6 @@ PUT    /api/admin/articles/:id    # Moderate article
 GET    /api/admin/users           # User management
 GET    /api/admin/analytics       # Platform analytics
 ```
-
----
-
-## 🤝 Contributing
-
-We welcome contributions from the community! Please follow these steps:
-
-1. **Fork the repository**
-2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Commit your changes** (`git commit -m 'Add amazing feature'`)
-4. **Push to the branch** (`git push origin feature/amazing-feature`)
-5. **Open a Pull Request**
-
-### 📝 **Contribution Guidelines**
-- Follow TypeScript/ESLint conventions
-- Write unit tests for new features
-- Update documentation for API changes
-- Ensure responsive design compliance
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- **React Team** for the amazing framework
-- **MongoDB** for flexible data storage
-- **Redis** for high-performance caching
-- **shadcn** for beautiful UI components
-- **Open Source Community** for inspiration and tools
-
----
-
-## 📞 Support & Contact
-
-- 📧 **Email**: [your-email@example.com]
-- 🐦 **Twitter**: [@your-handle]
-- 💬 **Discord**: [Your Discord Community]
-- 📚 **Documentation**: [docs.your-platform.com]
-
----
 
 <p align="center">
   <strong>Built with ❤️ for the blogging community</strong>
